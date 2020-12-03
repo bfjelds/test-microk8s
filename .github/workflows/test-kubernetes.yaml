@@ -119,7 +119,7 @@ jobs:
     - if: startsWith(matrix.kube-runtime, 'Kubernetes')
       name: Access docker with Kubernetes
       run: |
-        sudo docker ls
+        sudo ctr images ls
 
     - if: startsWith(matrix.kube-runtime, 'MicroK8s')
       name: Install MicroK8s
@@ -147,6 +147,7 @@ jobs:
     - if: startsWith(matrix.kube-runtime, 'MicroK8s')
       name: Access CTR with MicroK8s
       run: |
+        sleep 60
         sudo microk8s.status --wait-ready
         sudo microk8s ctr images ls
 
