@@ -92,11 +92,10 @@ jobs:
         echo '~/.kube/config' > /tmp/kubeconfig_path_to_test.txt
         until kubectl get node ${HOSTNAME,,} -o jsonpath='{@.metadata.name}:{range @.status.conditions[*]}{@.type}={@.status}' | grep 'Ready=True'; do echo "waiting for k3s to become ready"; sleep 10; done
 
-    - if: (startsWith(github.event_name, 'pull_request')) && (startsWith(matrix.kube-runtime, 'K3s'))
-      name: Import local agent and controller to K3s
+    - if: startsWith(matrix.kube-runtime, 'K3s')
+      name: Access ctr with K3s
       run: |
-        sudo k3s ctr image import agent.tar
-        sudo k3s ctr image import controller.tar
+        sudo k3s ctr image ls
 
     - if: startsWith(matrix.kube-runtime, 'Kubernetes')
       name: Install Kubernetes
@@ -117,11 +116,10 @@ jobs:
         echo '~/.kube/config' > /tmp/kubeconfig_path_to_test.txt
         until kubectl get node ${HOSTNAME,,} -o jsonpath='{@.metadata.name}:{range @.status.conditions[*]}{@.type}={@.status}' | grep 'Ready=True'; do echo "waiting for kubernetes to become ready"; sleep 10; done
 
-    - if: (startsWith(github.event_name, 'pull_request')) && (startsWith(matrix.kube-runtime, 'Kubernetes'))
-      name: Import local agent and controller to Kubernetes
+    - if: startsWith(matrix.kube-runtime, 'Kubernetes')
+      name: Access docker with Kubernetes
       run: |
-        sudo docker load --input agent.tar
-        sudo docker load --input controller.tar
+        sudo docker ls
 
     - if: startsWith(matrix.kube-runtime, 'MicroK8s')
       name: Install MicroK8s
@@ -146,12 +144,9 @@ jobs:
         echo 'microk8s kubectl' > /tmp/runtime_cmd_to_test.txt
         echo '~/.kube/config' > /tmp/kubeconfig_path_to_test.txt
 
-    - if: (startsWith(github.event_name, 'pull_request')) && (startsWith(matrix.kube-runtime, 'MicroK8s'))
-      name: Import local agent and controller to MicroK8s
+    - if: startsWith(matrix.kube-runtime, 'MicroK8s')
+      name: Access CTR with MicroK8s
       run: |
         sudo microk8s.status --wait-ready
-        sudo microk8s ctr images ls
-        sudo microk8s ctr --debug --timeout 10s images import agent.tar
-        sudo microk8s ctr --debug --timeout 10s images import controller.tar
         sudo microk8s ctr images ls
 
