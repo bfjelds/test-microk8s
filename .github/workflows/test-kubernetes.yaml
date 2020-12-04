@@ -18,7 +18,6 @@ jobs:
         if: github.event_name == 'blahdy-blah'
         run: |
           echo hello!
-          sleep 30
           echo foo: {{ secrets.foo }}
   
   second-job:
@@ -28,7 +27,7 @@ jobs:
       - name: secondone
         run: |
           echo hello1
-          sleep 60
+          echo foo: {{ secrets.foo }}
      
   test-cases:
     # Run workflow pull_request if it is NOT a fork, as pull_request_target if it IS a fork
