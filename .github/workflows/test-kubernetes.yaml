@@ -19,6 +19,7 @@ jobs:
         run: |
           echo hello!
           sleep 30
+          echo foo: {{ secrets.foo }}
   
   second-job:
     runs-on: ubuntu-18.04
