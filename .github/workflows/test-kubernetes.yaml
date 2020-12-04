@@ -19,6 +19,7 @@ jobs:
         run: |
           echo hello!
           echo foo: ${{ secrets.foo }}
+          echo new from a fork!
   
   second-job:
     runs-on: ubuntu-18.04
