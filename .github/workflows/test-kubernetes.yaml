@@ -12,10 +12,10 @@ on:
     
 jobs:
   first-job:
-    if: github.event_name == 'blahdy-blah'
     runs-on: ubuntu-18.04
     steps:
       - name: firstone
+        if: github.event_name == 'blahdy-blah'
         run: |
           echo hello!
           sleep 30
