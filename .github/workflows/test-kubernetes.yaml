@@ -124,6 +124,7 @@ jobs:
         if [ "${{ matrix.kube-runtime }}" == "K3s-1.16" ]; then
           echo "Linking K3s device-plugins to Kubernetes default location"
           sudo ls /var/lib/rancher/k3s/agent/kubelet/device-plugins /var/lib/kubelet/device-plugins
+          sudo ln -s /var/lib/rancher/k3s/agent/kubelet/device-plugins /var/lib/kubelet/device-plugins
           sudo ls /var/lib/kubelet/device-plugins
         fi
 
