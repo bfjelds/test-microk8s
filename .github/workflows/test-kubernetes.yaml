@@ -123,7 +123,7 @@ jobs:
         until kubectl get node ${HOSTNAME,,} -o jsonpath='{@.metadata.name}:{range @.status.conditions[*]}{@.type}={@.status}' | grep 'Ready=True'; do echo "waiting for k3s to become ready"; sleep 10; done
         if [ "${{ matrix.kube-runtime }}" == "K3s-1.16" ]; then
           echo "Linking K3s device-plugins to Kubernetes default location"
-          sudo ls /var/lib/rancher/k3s/agent/kubelet/device-plugins /var/lib/kubelet/device-plugins
+          sudo ls /var/lib/rancher/k3s/agent/kubelet/device-plugins
           sudo ln -s /var/lib/rancher/k3s/agent/kubelet/device-plugins /var/lib/kubelet/device-plugins
           sudo ls /var/lib/kubelet/device-plugins
         fi
